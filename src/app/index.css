@@ -1,0 +1,291 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&display=swap');
+
+/* RESET */
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Prevent font size inflation */
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+/* Remove default margin in favour of better control in authored CSS */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin-block-end: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+:where([role='list'], ol[role='list']) {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Set shorter line heights on headings and interactive elements */
+h1,
+h2,
+h3,
+h4,
+button,
+input,
+label {
+  line-height: 1.1;
+}
+
+/* Balance text wrapping on headings */
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+/* A elements that don't have a class get default styles */
+a {
+  text-decoration: none;
+  color: currentColor;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Make sure textareas without a rows attribute are not tiny */
+textarea:not([rows]) {
+  min-height: 10em;
+}
+
+/* Anything that has been anchored to should have extra scroll margin */
+:target {
+  scroll-margin-block: 5ex;
+}
+
+/* COMMON */
+:root {
+  --clr-secondary--400: #d4f0dd;
+  --clr-secondary--700: #027940;
+  --clr-secondary--900: #000000;
+  --clr-primary--400: #ffffff;
+
+  --font-primary: 'Baloo 2', sans-serif;
+  --font-secondary: 'Nunito', sans-serif;
+
+  --space-small: 0.75rem;
+  --space: 1.25rem;
+
+  --tap-size: 2.75rem;
+  --border-r: 2rem;
+}
+
+html {
+  font-family: var(--font-primary);
+  font-optical-sizing: auto;
+  font-style: normal;
+
+  background-color: var(--clr-secondary--400);
+  background-image: url(/public/background.svg);
+  background-repeat: no-repeat;
+  background-position: 80% center;
+  background-size: cover;
+}
+
+body {
+  padding: 1.375rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.border--round {
+  border-radius: 1000%;
+}
+
+[class^='stack'] {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  & > * {
+    margin-block: 0;
+  }
+}
+
+.stack > * + * {
+  margin-block-start: var(--space);
+}
+
+.stack-small > * + * {
+  margin-block-start: var(--space-small);
+}
+
+.block {
+  display: block;
+}
+
+.flex {
+  display: flex;
+}
+
+.tappable {
+  min-width: var(--tap-size);
+  min-height: var(--tap-size);
+}
+
+.full-width {
+  min-width: max-content;
+}
+
+.text--centered {
+  text-align: center;
+}
+
+/* COMPONENTS */
+.button-style {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--border-r);
+  border: 0 solid transparent;
+  margin: 0;
+  padding: 0.625rem;
+  background-color: var(--clr-primary--400);
+  color: var(--clr-secondary--900);
+}
+
+.avatar--button {
+  width: var(--tap-size);
+  height: var(--tap-size);
+
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+header {
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  & > :nth-child(1) {
+    flex-grow: 1;
+  }
+  & > :nth-child(2) {
+    flex-grow: 1;
+  }
+}
+
+.tile {
+  max-height: 12.5rem;
+  border-radius: var(--border-r);
+  & img {
+    height: 100%;
+    object-fit: contain;
+    border-radius: var(--border-r);
+  }
+}
+
+/* INDEX PAGE */
+.index-page {
+  & .analytics {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  & .sets {
+    font-size: 5.25rem;
+    font-weight: 700;
+    color: var(--clr-primary--400);
+
+    & > li {
+      display: block;
+
+      &.disabled {
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-color: var(--clr-primary--400);
+          border-radius: var(--border-r);
+          opacity: 0.5;
+          pointer-events: none;
+        }
+      }
+    }
+
+    & a {
+      display: grid;
+      position: relative;
+      border-radius: var(--border-r);
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+      max-height: 12.5rem;
+      align-items: end;
+
+      & > * {
+        grid-area: 1 / 1 / 2 / 2;
+        line-height: 1;
+      }
+
+      & > .image-wrapper {
+        overflow: hidden;
+        border-radius: var(--border-r);
+        height: 100%;
+        & > img {
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}
