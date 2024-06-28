@@ -38,7 +38,7 @@ const SETSDATA = {
   },
 };
 
-export const SetEnd = () => (
+const SetEnd = () => (
   <section>
     <h1>Congratulations!</h1>
     <p>
