@@ -45,8 +45,10 @@ export const Tile = ({ value, correct, title, image, onClick }: TileProps) => (
         onClick(value, correct);
       }}
     >
-      {title}
+      <span className="sr-only">{title}</span>
+      {/* <div className="image-wrapper"> */}
       <img alt="" src={image} />
+      {/* </div> */}
     </button>
   </li>
 );
