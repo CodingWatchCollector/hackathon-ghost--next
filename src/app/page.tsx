@@ -17,7 +17,7 @@ export type Loader = {
   };
 };
 
-export const DATA: Loader = {
+const DATA: Loader = {
   sets: [
     {
       name: "Animals",
