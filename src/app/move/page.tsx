@@ -1,10 +1,13 @@
 "use client";
 import * as tf from "@tensorflow/tfjs";
-import "@tensorflow/tfjs-backend-webgl"; // Import the WebGL backend
+import "@tensorflow/tfjs-backend-webgl";
 import React, { useEffect, useRef, useState } from "react";
 import * as handpose from "@tensorflow-models/handpose";
 import * as posenet from "@tensorflow-models/posenet";
 import Webcam from "react-webcam";
+
+
+
 
 interface Keypoint {
   part: string;
@@ -33,8 +36,7 @@ const Move: React.FC = () => {
   const [rightHand, setRightHand] = useState<Hand | null>(null);
   const [pose, setPose] = useState<Pose | null>(null);
   const [bodyPartsTouching, setBodyPartsTouching] = useState<Keypoint[]>([]);
-  const [touchingBodyPartLabel, setTouchingBodyPartLabel] =
-    useState<string>("");
+  const [touchingBodyPartLabel, setTouchingBodyPartLabel] = useState<string>("");
 
   useEffect(() => {
     const initializeTfjs = async () => {
@@ -107,7 +109,10 @@ const Move: React.FC = () => {
     };
 
     initializeTfjs();
-  }, []);
+    if(touchingBodyPartLabel === "nose") {
+
+    }
+  }, [touchingBodyPartLabel]);
 
   const isTouchingIndexFinger = (
     keypoint: Keypoint,
@@ -119,7 +124,7 @@ const Move: React.FC = () => {
         Math.pow(indexFinger[0] - keypoint.position.x, 2) +
           Math.pow(indexFinger[1] - keypoint.position.y, 2)
       );
-      return dist < 30; // Adjust this threshold as needed
+      return dist < 30;
     }
     return false;
   };
@@ -129,10 +134,8 @@ const Move: React.FC = () => {
 
     if (!ctx) return;
 
-    // Clear canvas
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    // Draw hands
     if (leftHand) {
       drawHand(leftHand, ctx, "red");
     }
@@ -141,7 +144,6 @@ const Move: React.FC = () => {
       drawHand(rightHand, ctx, "blue");
     }
 
-    // Draw pose keypoints
     if (pose) {
       drawPose(pose, ctx);
     }
@@ -217,12 +219,10 @@ const Move: React.FC = () => {
       >
         <div
           style={{
-            top: 10,
-            left: 10,
+            position: "relative",
             zIndex: 10,
             width: "100%",
-            height: "300px",
-            background: "white",
+            height: "280px",
             borderRadius: "25px",
             border: "1px solid black",
             fontSize: "30px",
@@ -230,9 +230,44 @@ const Move: React.FC = () => {
             justifyContent: "center",
             alignItems: "center",
             overflow: "hidden",
+            background: "green",
+           
           }}
         >
-          {touchingBodyPartLabel}
+          <video
+            autoPlay
+            muted
+            loop
+            src="/Nose.mov"
+            style={{
+              scale: "113%",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              zIndex: -1,
+            }}
+          ></video>
+{touchingBodyPartLabel && (
+  <p
+    id="bodyPartTouchingLabel"
+    style={{
+      position: "absolute",
+      backgroundColor: "white",
+      borderRadius: "25px",
+      padding: "5px",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      color: "red",
+      zIndex: 110,
+    }}
+  >
+    {touchingBodyPartLabel}
+  </p>
+)}
         </div>
         <Webcam
           ref={webcamRef}
@@ -254,7 +289,7 @@ const Move: React.FC = () => {
             position: "absolute",
             marginLeft: "auto",
             marginRight: "auto",
-            left: -10000, // Move canvas out of visible area
+            left: 0,
             right: 0,
             textAlign: "center",
             zIndex: 10,
@@ -262,16 +297,6 @@ const Move: React.FC = () => {
             height: "100%",
           }}
         />
-        <div
-          id="bodyPartTouchingLabel"
-          style={{
-            position: "absolute",
-            top: 10,
-            left: 10,
-            color: "red",
-            zIndex: 11,
-          }}
-        ></div>
       </div>
     </div>
   );
